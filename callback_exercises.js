@@ -77,15 +77,35 @@ function addNumbers(sum, numsLeft, completionCallback) {
       addNumbers(sum,numsLeft - 1, completionCallback);
     });
   }
-
-  // reader.question("Enter #1: ", function (numString1) {
-  //   reader.question("Enter #2: ", function (numString2) {
-  //     const num1 = parseInt(numString1);
-  //     const num2 = parseInt(numString2);
-  //
-  //     callback(num1 + num2);
-  //   });
-  // });
 }
 
-addNumbers(0, 3, sum => console.log(`Total Sum: ${sum}`));
+// addNumbers(0, 3, sum => console.log(`Total Sum: ${sum}`));
+
+function absurdBubbleSort(arr, sortCompletionCallback) {
+
+  for(var i = arr.length; i > 0; i--) {
+    for (var j = 0; j < i; j++) {
+
+      if (sortCompletionCallback(arr[j],arr[j + 1])) {
+        temp = arr[j + 1];
+        arr[j + 1] = arr[j];
+        arr[j] = temp;
+      }
+    }
+  }
+  // console.log(arr);
+
+}
+
+function askIfGreaterThan(el1, el2) {
+  reader.question(`is ${el1} greater than ${el2}?`, function (response) {
+    if (response === 'y') {
+      return true;
+    } else {
+      return false;
+    }
+  });
+}
+// sortCompletionCallback(arr[j], arr[j + 1]
+
+absurdBubbleSort([1,8,11,6,79,3], askIfGreaterThan);
