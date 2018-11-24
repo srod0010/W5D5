@@ -25,4 +25,21 @@ class Game {
       return true;
     }
   }
+
+  gameOver () {
+    if (this.towers[0] === [3,2,1]) {
+      return true;
+    } else if (this.towers[1] === [3,2,1]) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  run () {
+    while (!gameOver) {
+      promptMove();
+    }
+    console.log('Congratulations You Win');
+  }
 }
