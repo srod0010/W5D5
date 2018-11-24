@@ -214,16 +214,3 @@ const myBoundTurnOn = turnOn.myBind(lamp);
 
 boundTurnOn(); // should say "Turning on a lamp"
 myBoundTurnOn(); // should say "Turning on a lamp"
-
-// class Cat {
-//   constructor(name) {
-//     this.name = name;
-//   }
-//
-//   meow() {
-//     console.log(`${this.name} says meow!`);
-//   }
-// }
-//
-// const curie = new Cat("Curie");
-// setTimeout(curie.meow.myBind(curie), 1000);
