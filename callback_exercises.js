@@ -81,31 +81,112 @@ function addNumbers(sum, numsLeft, completionCallback) {
 
 // addNumbers(0, 3, sum => console.log(`Total Sum: ${sum}`));
 
-function absurdBubbleSort(arr, sortCompletionCallback) {
+// function absurdBubbleSort(arr, sortCompletionCallback) {
+//
+//
+//   sorted = false;
+//
+//   while (sorted === false) {
+//     sorted = true;
+//       let j = 0;
+//       while (j < arr.length) {
+//
+//       askIfGreaterThan(arr[j], arr[j + 1], function (isGreaterThan) {
+//         if (isGreaterThan) {
+//
+          // temp = arr[j + 1];
+          // arr[j + 1] = arr[j];
+          // arr[j] = temp;
+//           sorted = false;
+//         }
+//
+//       });
+//
+//       j++;
+//
+//     }
+//
+//   }
+//   // console.log(arr);
+//
+// }
+//
+// function askIfGreaterThan(el1, el2, callback) {
+//   reader.question(`is ${el1} greater than ${el2}?`, function (response) {
+//     if (response === 'y') {
+//
+//       callback(true);
+//     } else {
+//
+//       callback(false);
+//     }
+//   });
+// }
+// // sortCompletionCallback(arr[j], arr[j + 1]
+//
+// absurdBubbleSort([1,8,11,6,79,3], function (l1, l2, callback) {
+//   // askIfGreaterThan(l1, l2, callback);
+//   reader.close();
+// });
 
-  for(var i = arr.length; i > 0; i--) {
-    for (var j = 0; j < i; j++) {
-
-      if (sortCompletionCallback(arr[j],arr[j + 1])) {
-        temp = arr[j + 1];
-        arr[j + 1] = arr[j];
-        arr[j] = temp;
-      }
-    }
-  }
-  // console.log(arr);
-
-}
-
-function askIfGreaterThan(el1, el2) {
+// Write this first.
+function askIfGreaterThan(el1, el2, callback) {
   reader.question(`is ${el1} greater than ${el2}?`, function (response) {
     if (response === 'y') {
-      return true;
+
+      callback(true);
     } else {
-      return false;
+
+      callback(false);
     }
   });
 }
-// sortCompletionCallback(arr[j], arr[j + 1]
+// Once you're done testing askIfGreaterThan with dummy arguments, write this.
+function innerBubbleSortLoop(arr, i, madeAnySwaps, outerBubbleSortLoop) {
+  // Do an "async loop":
+  // 1. If (i == arr.length - 1), call outerBubbleSortLoop, letting it
+  //    know whether any swap was made.
+  if (i === (arr.length - 1)) {
+    outerBubbleSortLoop(madeAnySwaps);
+    return;
+  }
+  // 2. Else, use `askIfGreaterThan` to compare `arr[i]` and `arr[i +
+  //    1]`. Swap if necessary. Call `innerBubbleSortLoop` again to
+  //    continue the inner loop. You'll want to increment i for the
+  //    next call, and possibly switch madeAnySwaps if you did swap.
+  askIfGreaterThan(arr[i], arr[i + 1], function (isGreaterThan) {
+    if (isGreaterThan) {
+      const temp = arr[i + 1];
+      arr[i + 1] = arr[i];
+      arr[i] = temp;
+      madeAnySwaps = true;
+    }
+    innerBubbleSortLoop(arr, i + 1, madeAnySwaps, outerBubbleSortLoop);
+  });
+}
 
-absurdBubbleSort([1,8,11,6,79,3], askIfGreaterThan);
+// Once you're done testing innerBubbleSortLoop, write outerBubbleSortLoop.
+// Once you're done testing outerBubbleSortLoop, write absurdBubbleSort.
+
+function absurdBubbleSort(arr, sortCompletionCallback) {
+  // outerBubbleSortLoop(true);
+  function outerBubbleSortLoop(madeAnySwaps) {
+    // Begin an inner loop if you made any swaps. Otherwise, call
+    // `sortCompletionCallback`.
+    if (madeAnySwaps) {
+      innerBubbleSortLoop(arr, 0, false, outerBubbleSortLoop);
+    } else {
+      sortCompletionCallback(arr);
+    }
+  }
+  // Kick the first outer loop off, starting `madeAnySwaps` as true.
+  outerBubbleSortLoop(true);
+
+}
+
+// innerBubbleSortLoop([3,2,1], 0, false, (arg) => { console.log(arg)});
+
+absurdBubbleSort([3, 2, 1], function (arr) {
+  console.log("Sorted array: " + JSON.stringify(arr));
+  reader.close();
+});
